@@ -14,10 +14,9 @@
 
 .lever ul {
   color: #FFFFFF;
-  font-family: Karla, sans-serif;
-  font-size: 2rem;
-  font-weight: 300;
-  line-height: 2.9rem;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
   letter-spacing: initial;
   text-transform: initial;
   list-style-type: none;
