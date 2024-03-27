@@ -14,6 +14,19 @@ function createJobs(_data) {
     var pageUrlSplit = pageUrl.split(trackingPrefix);
     leverParameter = '?lever-'+pageUrlSplit[1];
   }
+  if (options.includeCss) {
+    function addCss(fileName) {
+      var head = document.head
+        , link = document.createElement('link');
+
+      link.type = 'text/css';
+      link.rel = 'stylesheet';
+      link.href = fileName;
+
+      head.appendChild(link);
+    }
+    addCss('https://gitwunderbread.github.io/btn-style.css');
+  }
 
   for(i = 0; i < _data.length; i++) {
     var posting = _data[i]
