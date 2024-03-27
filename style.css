@@ -28,10 +28,9 @@
 }
 
 .lever ul a {
-  color: #grey;
+  color: #FFFFFF;
 }
 
 .lever ul a:hover {
-  color: white;
-  underline: #881BF5;
+  color: #881BF5;
 }
