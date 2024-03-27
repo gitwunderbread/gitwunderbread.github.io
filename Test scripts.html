@@ -1,0 +1,101 @@
+<section>
+  <div class="container" id="jobs-container">
+    <h1>Open jobs</h1>
+    <div class="jobs-list">
+    </div>
+  </div>
+</section>
+<script type="text/javascript">options= {includeCss: true};</script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://gitwunderbread.github.io/btn-index.js"></script>
+
+<--closest-->
+
+
+<div id='lever-jobs-container'></div><script type='text/javascript'>window.leverJobsOptions = {accountName: 'solestial', includeCss: true};</script><script type='text/javascript' src='https://gitwunderbread.github.io/index.js'></script>
+
+
+<div class="iframe-container">
+  <iframe id="postings-iframe" seamless frameborder="0" allowtransparency="true" scrolling="no"  height="475" width="100%"
+    src="https://api.lever.co/v0/postings/solestial?mode=iframe&resize=https://gitwunderbread.github.io/resizeiframe.html&group=team&css=https://gitwunderbread.github.io/style.css">
+    Your browser does not appear to support iframes. See <a href="https://jobs.lever.co/solestial">all job postings</a>.
+  </iframe>
+</div>
+<script type="text/javascript">
+  function resizePostings(height) {
+    var iframe = document.getElementById('postings-iframe');
+    if (iframe) {
+      iframe.style.height = height + 'px';
+    }
+  }
+</script>
+
+
+
+// REPLACE "LEVERDEMO" WITH YOUR COMPANY NAME BELOW
+url = "https://api.lever.co/v0/postings/solestial?mode=json";
+
+//Setting up the structure for each job posting
+function createJobs(_data) {
+  //Checking for potential Lever source or origin parameters
+  var pageUrl = window.location.href;
+  var leverParameter = "";
+  var trackingPrefix = "?lever-";
+
+  if (pageUrl.indexOf(trackingPrefix) >= 0) {
+    // Found Lever parameter
+    var pageUrlSplit = pageUrl.split(trackingPrefix);
+    leverParameter = "?lever-" + pageUrlSplit[1];
+  }
+
+  for (i = 0; i < _data.length; i++) {
+    var posting = _data[i];
+    var title = posting.text;
+    var description = posting.description;
+    //Making each job description shorter than 250 characters
+    var shortDescription =
+      $.trim(description).substring(0, 250).replace("\n", " ") + "...";
+    var location = posting.categories.location;
+    var commitment = posting.categories.commitment;
+    var team = posting.categories.team;
+    var link = posting.hostedUrl + leverParameter;
+
+    $("#jobs-container .jobs-list").append(
+      '<div class="job ' +
+        team +
+        " " +
+        location +
+        " " +
+        commitment +
+        '">' +
+        '<a class="job-title" href="' +
+        link +
+        '"">' +
+        title +
+        "</a>" +
+        '<p class="tags"><span>' +
+        team +
+        "</span><span>" +
+        location +
+        "</span><span>" +
+        commitment +
+        "</span></p>" +
+        '<p class="description">' +
+        shortDescription +
+        "</p>" +
+        '<a class="btn" href="' +
+        link +
+        '">Learn more</a>' +
+        "</div>"
+    );
+  }
+}
+
+//Fetching job postings from Lever's postings API
+$.ajax({
+  dataType: "json",
+  url: url,
+  success: function (data) {
+    createJobs(data);
+  }
+});
